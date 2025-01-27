@@ -11,6 +11,8 @@
     <None Include="..\..\Source\CH3_assignment7Editor.Target.cs">
       <Filter>Source</Filter>
     </None>
+    <None Include="..\..\.gitattributes" />
+    <None Include="..\..\.gitignore" />
     <None Include="..\..\.vsconfig" />
     <Filter Include="Config">
       <UniqueIdentifier>{FA535FFB-25E1-3D20-B416-52F9BE21E06E}</UniqueIdentifier>
@@ -42,13 +44,25 @@
     <Filter Include="Source\CH3_assignment7\Private">
       <UniqueIdentifier>{2A58A11E-0425-3BFA-8BBB-07838797FCDF}</UniqueIdentifier>
     </Filter>
+    <ClCompile Include="..\..\Source\CH3_assignment7\Private\AssignGameMode.cpp">
+      <Filter>Source\CH3_assignment7\Private</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\CH3_assignment7\Private\AssignPawn.cpp">
+      <Filter>Source\CH3_assignment7\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\CH3_assignment7\Private\AssignPlayerController.cpp">
       <Filter>Source\CH3_assignment7\Private</Filter>
     </ClCompile>
     <Filter Include="Source\CH3_assignment7\Public">
       <UniqueIdentifier>{BAABA9E1-725C-3800-ABFD-D2450D0C24E6}</UniqueIdentifier>
     </Filter>
+    <ClCompile Include="..\..\Source\CH3_assignment7\Public\AssignGameMode.h">
+      <Filter>Source\CH3_assignment7\Public</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\CH3_assignment7\Public\AssignPawn.h">
+      <Filter>Source\CH3_assignment7\Public</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\CH3_assignment7\Public\AssignPlayerController.h">
       <Filter>Source\CH3_assignment7\Public</Filter>
     </ClCompile>
   </ItemGroup>

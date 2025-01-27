@@ -1,0 +1,14 @@
+{
+	"Targets": [
+		{
+			"Name": "CH3_assignment7",
+			"Path": "..\\Source\\CH3_assignment7.Target.cs",
+			"Type": "Game"
+		},
+		{
+			"Name": "CH3_assignment7Editor",
+			"Path": "..\\Source\\CH3_assignment7Editor.Target.cs",
+			"Type": "Editor"
+		}
+	]
+}

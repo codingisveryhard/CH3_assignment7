@@ -53,6 +53,12 @@
     <ClCompile Include="..\..\Source\CH3_assignment7\Private\AssignPlayerController.cpp">
       <Filter>Source\CH3_assignment7\Private</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\CH3_assignment7\Private\DroneController.cpp">
+      <Filter>Source\CH3_assignment7\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\CH3_assignment7\Private\DronePawn.cpp">
+      <Filter>Source\CH3_assignment7\Private</Filter>
+    </ClCompile>
     <Filter Include="Source\CH3_assignment7\Public">
       <UniqueIdentifier>{BAABA9E1-725C-3800-ABFD-D2450D0C24E6}</UniqueIdentifier>
     </Filter>
@@ -63,6 +69,12 @@
       <Filter>Source\CH3_assignment7\Public</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\CH3_assignment7\Public\AssignPlayerController.h">
+      <Filter>Source\CH3_assignment7\Public</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\CH3_assignment7\Public\DroneController.h">
+      <Filter>Source\CH3_assignment7\Public</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\CH3_assignment7\Public\DronePawn.h">
       <Filter>Source\CH3_assignment7\Public</Filter>
     </ClCompile>
   </ItemGroup>

@@ -41,6 +41,8 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pawn| Properties")
 	float RotationSpeed;				// 그냥 사용할 시 마우스 속도에 비해 폰의 회전 속도가 느려서 추가
 
+	float LastMovingTime;				// 움직이고 있는지 판별하기 위해 추가
+
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

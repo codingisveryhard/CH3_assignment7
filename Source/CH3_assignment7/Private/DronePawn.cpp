@@ -34,7 +34,6 @@ ADronePawn::ADronePawn()
 
 	SpringArmComp->TargetArmLength = 300.0f;
 	SpringArmComp->bUsePawnControlRotation = true;
-	CameraComp->bUsePawnControlRotation = false;
 
 	StaticMeshComp->SetSimulatePhysics(false);											// 스켈레탈 메시 물리 시뮬레이션 비활성화
 	StaticMeshComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);					// 스켈레탈 메시 충돌 비활성화
@@ -42,6 +41,7 @@ ADronePawn::ADronePawn()
 
 	MoveSpeed = 100.0f;
 	RotationSpeed = 2.0f;
+	LastMovingTime = 0.0f;
 }
 
 // Called when the game starts or when spawned
@@ -56,6 +56,18 @@ void ADronePawn::Move(const FInputActionValue& value)
 	if (!Controller) return;
 
 	const FVector MoveInput = value.Get<FVector>();
+
+	LastMovingTime = GetWorld()->GetTimeSeconds();
+
+
+	float RotationScale = 5.0f;
+	FRotator CurrentRotation = GetActorRotation();
+	float MovingPitch = -MoveInput.X * RotationScale;
+	float MovingRoll = MoveInput.Y * RotationScale;
+	FRotator DroneRotation = FRotator(MovingPitch, CurrentRotation.Yaw, MovingRoll);
+	FRotator NewRotation = FMath::RInterpTo(CurrentRotation, DroneRotation, GetWorld()->GetDeltaSeconds(), RotationSpeed);
+	SetActorRotation(NewRotation);
+
 
 	if (!FMath::IsNearlyZero(MoveInput.X)) {
 		AddActorLocalOffset(FVector(MoveInput.X * MoveSpeed, 0.0f, 0.0f));
@@ -89,11 +101,14 @@ void ADronePawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	FRotator CurrentRotation = GetActorRotation();
-	FRotator ZeroRotation = FRotator(0.0f, CurrentRotation.Yaw, 0.0f);
-	FRotator NewRotation = FMath::RInterpTo(CurrentRotation, ZeroRotation, DeltaTime, RotationSpeed);
-	SetActorRotation(NewRotation);
+	float CurrentTime = GetWorld()->GetTimeSeconds();
 
+	if (CurrentTime - LastMovingTime > 1.0f) {
+		FRotator CurrentRotation = GetActorRotation();
+		FRotator ZeroRotation = FRotator(0.0f, CurrentRotation.Yaw, 0.0f);
+		FRotator NewRotation = FMath::RInterpTo(CurrentRotation, ZeroRotation, DeltaTime, RotationSpeed);
+		SetActorRotation(NewRotation);
+	}
 }
 
 // Called to bind functionality to input

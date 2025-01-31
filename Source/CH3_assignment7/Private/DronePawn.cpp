@@ -11,7 +11,7 @@
 ADronePawn::ADronePawn()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = false;
+	PrimaryActorTick.bCanEverTick = true;
 
 	SceneRoot = CreateDefaultSubobject<USceneComponent>(TEXT("SceneRoot"));
 	SetRootComponent(SceneRoot);
@@ -88,6 +88,11 @@ void ADronePawn::Wheel(const FInputActionValue& value)
 void ADronePawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	FRotator CurrentRotation = GetActorRotation();
+	FRotator ZeroRotation = FRotator(0.0f, CurrentRotation.Yaw, 0.0f);
+	FRotator NewRotation = FMath::RInterpTo(CurrentRotation, ZeroRotation, DeltaTime, RotationSpeed);
+	SetActorRotation(NewRotation);
 
 }
 

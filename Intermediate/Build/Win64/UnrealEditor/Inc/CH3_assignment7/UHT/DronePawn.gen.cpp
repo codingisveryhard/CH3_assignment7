@@ -59,7 +59,13 @@ struct Z_Construct_UClass_ADronePawn_Statics
 	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_MoveSpeed_MetaData[] = {
 		{ "Category", "Pawn| Properties" },
+#if !UE_BUILD_SHIPPING
+		{ "Comment", "// \xeb\xa7\x88\xec\x9a\xb0\xec\x8a\xa4 \xed\x9c\xa0\xec\x9d\x84 \xed\x86\xb5\xed\x95\xb4 Roll \xed\x9a\x8c\xec\xa0\x84\xec\x9d\x84 \xed\x95\x98\xea\xb2\x8c \xed\x95\x9c\xeb\x8b\xa4.\n" },
+#endif
 		{ "ModuleRelativePath", "Public/DronePawn.h" },
+#if !UE_BUILD_SHIPPING
+		{ "ToolTip", "\xeb\xa7\x88\xec\x9a\xb0\xec\x8a\xa4 \xed\x9c\xa0\xec\x9d\x84 \xed\x86\xb5\xed\x95\xb4 Roll \xed\x9a\x8c\xec\xa0\x84\xec\x9d\x84 \xed\x95\x98\xea\xb2\x8c \xed\x95\x9c\xeb\x8b\xa4." },
+#endif
 	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_RotationSpeed_MetaData[] = {
 		{ "Category", "Pawn| Properties" },
@@ -134,10 +140,10 @@ ADronePawn::~ADronePawn() {}
 struct Z_CompiledInDeferFile_FID_VS_CH3_assignment7_Source_CH3_assignment7_Public_DronePawn_h_Statics
 {
 	static constexpr FClassRegisterCompiledInInfo ClassInfo[] = {
-		{ Z_Construct_UClass_ADronePawn, ADronePawn::StaticClass, TEXT("ADronePawn"), &Z_Registration_Info_UClass_ADronePawn, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(ADronePawn), 2707901289U) },
+		{ Z_Construct_UClass_ADronePawn, ADronePawn::StaticClass, TEXT("ADronePawn"), &Z_Registration_Info_UClass_ADronePawn, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(ADronePawn), 2103057253U) },
 	};
 };
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_VS_CH3_assignment7_Source_CH3_assignment7_Public_DronePawn_h_3748418272(TEXT("/Script/CH3_assignment7"),
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_VS_CH3_assignment7_Source_CH3_assignment7_Public_DronePawn_h_307290090(TEXT("/Script/CH3_assignment7"),
 	Z_CompiledInDeferFile_FID_VS_CH3_assignment7_Source_CH3_assignment7_Public_DronePawn_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_VS_CH3_assignment7_Source_CH3_assignment7_Public_DronePawn_h_Statics::ClassInfo),
 	nullptr, 0,
 	nullptr, 0);

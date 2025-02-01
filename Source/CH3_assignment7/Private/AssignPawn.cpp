@@ -11,7 +11,7 @@
 AAssignPawn::AAssignPawn()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = false;
+	PrimaryActorTick.bCanEverTick = true;	// 중력 작용을 위해 true
 
 	CapsuleRoot = CreateDefaultSubobject<UCapsuleComponent>(TEXT("CapsuleRoot"));
 	SetRootComponent(CapsuleRoot);
@@ -46,6 +46,9 @@ AAssignPawn::AAssignPawn()
 	SkeletalMeshComp->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);	// 스켈레탈 메시 모든 충돌 채널 무시
 
 	MoveSpeed = 50.0f;
+
+	Gravity = FVector(0.0f, 0.0f, -980.0f);
+	AirSpeed = 1.0f;
 }
 
 // Called when the game starts or when spawned
@@ -59,6 +62,26 @@ void AAssignPawn::BeginPlay()
 void AAssignPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	FVector NewVelocity = Gravity * DeltaTime; // 중력 가속도 적용
+
+	// 바닥 체크 (레이캐스트 사용)
+	FVector Start = GetActorLocation();
+	FVector End = Start + FVector(0.0f, 0.0f, -90.0f); // 아래 방향으로 10cm 탐색
+
+	FHitResult HitResult;					// 충돌 검사결과를 저장
+	FCollisionQueryParams CollisionParams;	// 충돌 검사 시 추가적인 조건 설정
+	CollisionParams.AddIgnoredActor(this);	// 자기 자신 무시
+
+	bool bOnGround = GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECC_Visibility, CollisionParams);	// 폰을 기준으로 일정거리 아래에 물체가 있을 시 땅 판정
+
+	if (!bOnGround)
+	{
+		// 바닥에 닿지 않았다면 중력 적용
+		AddActorWorldOffset(NewVelocity, true); // Sweep 활성화하여 충돌 감지
+		AirSpeed = 0.3;							// 공중에서의 속도 감소
+	}
+	else AirSpeed = 1.0f;						// 땅에서는 다시 정상 속도
 
 }
 
@@ -113,10 +136,10 @@ void AAssignPawn::Move(const FInputActionValue& value) {
 	const FVector2D MoveInput = value.Get<FVector2D>();
 
 	if (!FMath::IsNearlyZero(MoveInput.X)) {
-		AddActorLocalOffset(FVector(MoveInput.X * MoveSpeed, 0.0f, 0.0f));
+		AddActorLocalOffset(FVector(MoveInput.X * MoveSpeed * AirSpeed, 0.0f, 0.0f));	// 공중에서의 속도배율 추가
 	}
 	if (!FMath::IsNearlyZero(MoveInput.Y)) {
-		AddActorLocalOffset(FVector(0.0f, MoveInput.Y * MoveSpeed, 0.0f));
+		AddActorLocalOffset(FVector(0.0f, MoveInput.Y * MoveSpeed * AirSpeed, 0.0f));	// 공중에서의 속도배율 추가
 	}
 }
 //void AAssignPawn::StartJump(const FInputActionValue& value) {	// 폰 클래스에서 Jump함수를 사용할 수 없다. 사용하고자한다면 직접 만들어서 써야한다.

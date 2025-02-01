@@ -36,7 +36,7 @@ ADronePawn::ADronePawn()
 	SpringArmComp->bUsePawnControlRotation = true;
 
 	StaticMeshComp->SetSimulatePhysics(false);											// 스켈레탈 메시 물리 시뮬레이션 비활성화
-	StaticMeshComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);					// 스켈레탈 메시 충돌 비활성화
+	StaticMeshComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);				// 스켈레탈 메시 충돌 비활성화
 	StaticMeshComp->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);	// 스켈레탈 메시 모든 충돌 채널 무시
 
 	MoveSpeed = 100.0f;
@@ -57,15 +57,15 @@ void ADronePawn::Move(const FInputActionValue& value)
 
 	const FVector MoveInput = value.Get<FVector>();
 
-	LastMovingTime = GetWorld()->GetTimeSeconds();
+	LastMovingTime = GetWorld()->GetTimeSeconds();		// 마지막으로 움직였을 때의 시간을 저장한다
 
 
-	float RotationScale = 5.0f;
+	float RotationScale = 5.0f;							// 이동 시 기울어지는 각도의 배율
 	FRotator CurrentRotation = GetActorRotation();
-	float MovingPitch = -MoveInput.X * RotationScale;
-	float MovingRoll = MoveInput.Y * RotationScale;
-	FRotator DroneRotation = FRotator(MovingPitch, CurrentRotation.Yaw, MovingRoll);
-	FRotator NewRotation = FMath::RInterpTo(CurrentRotation, DroneRotation, GetWorld()->GetDeltaSeconds(), RotationSpeed);
+	float MovingPitch = -MoveInput.X * RotationScale;	// 이동 시 Pitch로 기울여지게 될 각도
+	float MovingRoll = MoveInput.Y * RotationScale;		// 이동 시 Roll로 기울여지게 될 각도
+	FRotator DroneRotation = FRotator(MovingPitch, CurrentRotation.Yaw, MovingRoll);	// 상승 시에는 기울여지지 않는다.
+	FRotator NewRotation = FMath::RInterpTo(CurrentRotation, DroneRotation, GetWorld()->GetDeltaSeconds(), RotationSpeed);	// 기울여지는 움직임을 자연스럽게 한다
 	SetActorRotation(NewRotation);
 
 
@@ -101,12 +101,12 @@ void ADronePawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	float CurrentTime = GetWorld()->GetTimeSeconds();
+	float CurrentTime = GetWorld()->GetTimeSeconds();	// 현재 시간을 가져온다
 
-	if (CurrentTime - LastMovingTime > 1.0f) {
+	if (CurrentTime - LastMovingTime > 1.0f) {			// 마지막으로 움직인 시간과 1초 이상 차이가 나면 회전 상태를 수평으로 되돌린다
 		FRotator CurrentRotation = GetActorRotation();
-		FRotator ZeroRotation = FRotator(0.0f, CurrentRotation.Yaw, 0.0f);
-		FRotator NewRotation = FMath::RInterpTo(CurrentRotation, ZeroRotation, DeltaTime, RotationSpeed);
+		FRotator ZeroRotation = FRotator(0.0f, CurrentRotation.Yaw, 0.0f);	// 수평이기 때문에 Yaw축은 제외
+		FRotator NewRotation = FMath::RInterpTo(CurrentRotation, ZeroRotation, DeltaTime, RotationSpeed);	// 자연스러운 움직임으로 되돌아간다
 		SetActorRotation(NewRotation);
 	}
 }

@@ -45,6 +45,12 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pawn| Properties")
 	float MoveSpeed;
+	float Accelerate;
+
+	FVector Gravity;
+	bool bIsGround;
+	float AirSpeed;
+
 
 public:	
 	// Called every frame

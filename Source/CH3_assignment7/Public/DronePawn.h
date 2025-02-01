@@ -34,7 +34,7 @@ protected:
 
 	void Move(const FInputActionValue& value);
 	void Look(const FInputActionValue& value);
-	void Wheel(const FInputActionValue& value);
+	void Wheel(const FInputActionValue& value);		// 마우스 휠을 통해 Roll 회전을 하게 한다.
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pawn| Properties")
 	float MoveSpeed;

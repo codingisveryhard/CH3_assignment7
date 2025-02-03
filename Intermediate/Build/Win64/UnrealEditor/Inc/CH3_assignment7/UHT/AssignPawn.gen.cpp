@@ -14,6 +14,7 @@ void EmptyLinkFunctionForGeneratedCodeAssignPawn() {}
 CH3_ASSIGNMENT7_API UClass* Z_Construct_UClass_AAssignPawn();
 CH3_ASSIGNMENT7_API UClass* Z_Construct_UClass_AAssignPawn_NoRegister();
 ENGINE_API UClass* Z_Construct_UClass_APawn();
+ENGINE_API UClass* Z_Construct_UClass_UAnimationAsset_NoRegister();
 ENGINE_API UClass* Z_Construct_UClass_UCameraComponent_NoRegister();
 ENGINE_API UClass* Z_Construct_UClass_UCapsuleComponent_NoRegister();
 ENGINE_API UClass* Z_Construct_UClass_USkeletalMeshComponent_NoRegister();
@@ -165,6 +166,18 @@ struct Z_Construct_UClass_AAssignPawn_Statics
 		{ "Category", "Pawn| Properties" },
 		{ "ModuleRelativePath", "Public/AssignPawn.h" },
 	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_IdleAnim_MetaData[] = {
+		{ "Category", "Pawn| Animation" },
+		{ "ModuleRelativePath", "Public/AssignPawn.h" },
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_RunAnim_MetaData[] = {
+		{ "Category", "Pawn| Animation" },
+		{ "ModuleRelativePath", "Public/AssignPawn.h" },
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_FallingAnim_MetaData[] = {
+		{ "Category", "Pawn| Animation" },
+		{ "ModuleRelativePath", "Public/AssignPawn.h" },
+	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_bIsMoving_MetaData[] = {
 		{ "Category", "Pawn| Properties" },
 		{ "ModuleRelativePath", "Public/AssignPawn.h" },
@@ -175,6 +188,9 @@ struct Z_Construct_UClass_AAssignPawn_Statics
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_CameraComp;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_SpringArmComp;
 	static const UECodeGen_Private::FFloatPropertyParams NewProp_MoveSpeed;
+	static const UECodeGen_Private::FObjectPropertyParams NewProp_IdleAnim;
+	static const UECodeGen_Private::FObjectPropertyParams NewProp_RunAnim;
+	static const UECodeGen_Private::FObjectPropertyParams NewProp_FallingAnim;
 	static void NewProp_bIsMoving_SetBit(void* Obj);
 	static const UECodeGen_Private::FBoolPropertyParams NewProp_bIsMoving;
 	static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
@@ -194,6 +210,9 @@ const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_AAssignPawn_St
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_AAssignPawn_Statics::NewProp_CameraComp = { "CameraComp", nullptr, (EPropertyFlags)0x002008000008000d, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(AAssignPawn, CameraComp), Z_Construct_UClass_UCameraComponent_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_CameraComp_MetaData), NewProp_CameraComp_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_AAssignPawn_Statics::NewProp_SpringArmComp = { "SpringArmComp", nullptr, (EPropertyFlags)0x002008000008000d, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(AAssignPawn, SpringArmComp), Z_Construct_UClass_USpringArmComponent_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_SpringArmComp_MetaData), NewProp_SpringArmComp_MetaData) };
 const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_AAssignPawn_Statics::NewProp_MoveSpeed = { "MoveSpeed", nullptr, (EPropertyFlags)0x0020080000000005, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(AAssignPawn, MoveSpeed), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_MoveSpeed_MetaData), NewProp_MoveSpeed_MetaData) };
+const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_AAssignPawn_Statics::NewProp_IdleAnim = { "IdleAnim", nullptr, (EPropertyFlags)0x0020080000000001, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(AAssignPawn, IdleAnim), Z_Construct_UClass_UAnimationAsset_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_IdleAnim_MetaData), NewProp_IdleAnim_MetaData) };
+const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_AAssignPawn_Statics::NewProp_RunAnim = { "RunAnim", nullptr, (EPropertyFlags)0x0020080000000001, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(AAssignPawn, RunAnim), Z_Construct_UClass_UAnimationAsset_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_RunAnim_MetaData), NewProp_RunAnim_MetaData) };
+const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_AAssignPawn_Statics::NewProp_FallingAnim = { "FallingAnim", nullptr, (EPropertyFlags)0x0020080000000001, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(AAssignPawn, FallingAnim), Z_Construct_UClass_UAnimationAsset_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_FallingAnim_MetaData), NewProp_FallingAnim_MetaData) };
 void Z_Construct_UClass_AAssignPawn_Statics::NewProp_bIsMoving_SetBit(void* Obj)
 {
 	((AAssignPawn*)Obj)->bIsMoving = 1;
@@ -205,6 +224,9 @@ const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_AAssignPa
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AAssignPawn_Statics::NewProp_CameraComp,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AAssignPawn_Statics::NewProp_SpringArmComp,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AAssignPawn_Statics::NewProp_MoveSpeed,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AAssignPawn_Statics::NewProp_IdleAnim,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AAssignPawn_Statics::NewProp_RunAnim,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AAssignPawn_Statics::NewProp_FallingAnim,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AAssignPawn_Statics::NewProp_bIsMoving,
 };
 static_assert(UE_ARRAY_COUNT(Z_Construct_UClass_AAssignPawn_Statics::PropPointers) < 2048);
@@ -248,10 +270,10 @@ AAssignPawn::~AAssignPawn() {}
 struct Z_CompiledInDeferFile_FID_VS_CH3_assignment7_Source_CH3_assignment7_Public_AssignPawn_h_Statics
 {
 	static constexpr FClassRegisterCompiledInInfo ClassInfo[] = {
-		{ Z_Construct_UClass_AAssignPawn, AAssignPawn::StaticClass, TEXT("AAssignPawn"), &Z_Registration_Info_UClass_AAssignPawn, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(AAssignPawn), 541625725U) },
+		{ Z_Construct_UClass_AAssignPawn, AAssignPawn::StaticClass, TEXT("AAssignPawn"), &Z_Registration_Info_UClass_AAssignPawn, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(AAssignPawn), 876412936U) },
 	};
 };
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_VS_CH3_assignment7_Source_CH3_assignment7_Public_AssignPawn_h_3407685365(TEXT("/Script/CH3_assignment7"),
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_VS_CH3_assignment7_Source_CH3_assignment7_Public_AssignPawn_h_1714077687(TEXT("/Script/CH3_assignment7"),
 	Z_CompiledInDeferFile_FID_VS_CH3_assignment7_Source_CH3_assignment7_Public_AssignPawn_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_VS_CH3_assignment7_Source_CH3_assignment7_Public_AssignPawn_h_Statics::ClassInfo),
 	nullptr, 0,
 	nullptr, 0);

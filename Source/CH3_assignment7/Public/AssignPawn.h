@@ -49,6 +49,21 @@ protected:
 
 	FVector Gravity;
 	float AirSpeed;
+	void Falling(float DeltaTime);
+
+	UPROPERTY(EditAnywhere, Category = "Pawn| Animation")
+	UAnimationAsset* IdleAnim;
+	UPROPERTY(EditAnywhere, Category = "Pawn| Animation")
+	UAnimationAsset* RunAnim;
+	UPROPERTY(EditAnywhere, Category = "Pawn| Animation")
+	UAnimationAsset* FallingAnim;
+
+	UAnimationAsset* CurrentAnim; // 현재 재생중인 애니메이션 확인용
+
+	void PlayIdleAnim();
+	void PlayFallingAnim();
+	void PlayRunAnim();
+
 
 	float JumpDist;
 	float JumpSpeed;

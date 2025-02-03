@@ -48,9 +48,16 @@ protected:
 	float Accelerate;
 
 	FVector Gravity;
-	bool bIsGround;
 	float AirSpeed;
 
+	float JumpDist;
+	float JumpSpeed;
+
+	bool bIsGround;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pawn| Properties")
+	bool bIsMoving;
+	bool bIsJumping;
+	FVector SaveLocation;
 
 public:	
 	// Called every frame

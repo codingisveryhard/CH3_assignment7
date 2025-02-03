@@ -49,6 +49,14 @@ AAssignPawn::AAssignPawn()
 
 	Gravity = FVector(0.0f, 0.0f, -980.0f);
 	AirSpeed = 1.0f;
+
+	JumpDist = 500.0f;
+	JumpSpeed = 10.0f;
+
+	bIsGround = true;
+	bIsMoving = false;
+	bIsJumping = false;
+	SaveLocation = GetActorLocation();
 }
 
 // Called when the game starts or when spawned
@@ -81,7 +89,16 @@ void AAssignPawn::Tick(float DeltaTime)
 		AddActorWorldOffset(NewVelocity, true); // Sweep 활성화하여 충돌 감지
 		AirSpeed = 0.3;							// 공중에서의 속도 감소
 	}
-	else AirSpeed = 1.0f;						// 땅에서는 다시 정상 속도
+	else {
+		AirSpeed = 1.0f;						// 땅에서는 다시 정상 속도
+	}
+
+	FVector Velocity = GetActorLocation() - SaveLocation;
+	float Speed = Velocity.Size2D();
+	if (Speed > 0) bIsMoving = true;
+	else bIsMoving = false;
+	SaveLocation = GetActorLocation();
+	UE_LOG(LogTemp, Warning, TEXT("Speed: %f, bIsMoving: %d"), Speed, bIsMoving);
 
 }
 

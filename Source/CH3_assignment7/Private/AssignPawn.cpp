@@ -199,7 +199,7 @@ void AAssignPawn::Falling(float DeltaTime)
 			}
 		}
 		else {
-			if (CurrentAnim != RunAnim) {
+			if (CurrentAnim != RunAnim) {			// 애니메이션이 전환될 때만 작동(멈춤 방지)
 				PlayRunAnim();
 			}
 		}

@@ -40,6 +40,8 @@ protected:
 	float MoveSpeed;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pawn| Properties")
 	float RotationSpeed;				// 그냥 사용할 시 마우스 속도에 비해 폰의 회전 속도가 느려서 추가
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pawn| Properties")
+	float HorizonSpeed;					// 기본 상태에서 수평으로 돌아가는 속도
 
 	float LastMovingTime;				// 움직이고 있는지 판별하기 위해 추가
 

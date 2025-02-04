@@ -1,16 +1,11 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "DronePawn.h"
 #include "DroneController.h"
 #include "EnhancedInputComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 
-// Sets default values
 ADronePawn::ADronePawn()
 {
- 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	SceneRoot = CreateDefaultSubobject<USceneComponent>(TEXT("SceneRoot"));
@@ -45,7 +40,6 @@ ADronePawn::ADronePawn()
 	LastMovingTime = 0.0f;
 }
 
-// Called when the game starts or when spawned
 void ADronePawn::BeginPlay()
 {
 	Super::BeginPlay();
@@ -97,7 +91,6 @@ void ADronePawn::Wheel(const FInputActionValue& value)
 	AddActorLocalRotation(FRotator(0.0f, 0.0f, WheelInput * RotationSpeed));
 }
 
-// Called every frame
 void ADronePawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -117,7 +110,6 @@ void ADronePawn::Tick(float DeltaTime)
 	}
 }
 
-// Called to bind functionality to input
 void ADronePawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 

@@ -17,6 +17,8 @@ struct FInputActionValue;
 
 #define FID_VS_CH3_assignment7_Source_CH3_assignment7_Public_AssignPawn_h_17_RPC_WRAPPERS_NO_PURE_DECLS \
 	DECLARE_FUNCTION(execLook); \
+	DECLARE_FUNCTION(execStopJump); \
+	DECLARE_FUNCTION(execStartJump); \
 	DECLARE_FUNCTION(execMove);
 
 

@@ -36,10 +36,10 @@ protected:
 
 	UFUNCTION()
 	void Move(const FInputActionValue& value);
-	//UFUNCTION()
-	//void StartJump(const FInputActionValue& value);
-	//UFUNCTION()
-	//void StopJump(const FInputActionValue& value);
+	UFUNCTION()
+	void StartJump(const FInputActionValue& value);
+	UFUNCTION()
+	void StopJump(const FInputActionValue& value);
 	UFUNCTION(BlueprintCallable)
 	void Look(const FInputActionValue& value);
 
@@ -57,19 +57,21 @@ protected:
 	UAnimationAsset* RunAnim;
 	UPROPERTY(EditAnywhere, Category = "Pawn| Animation")
 	UAnimationAsset* FallingAnim;
+	UPROPERTY(EditAnywhere, Category = "Pawn| Animation")
+	UAnimationAsset* JumpAnim;
 
 	UAnimationAsset* CurrentAnim; // 현재 재생중인 애니메이션 확인용
 
 	void PlayIdleAnim();
 	void PlayFallingAnim();
 	void PlayRunAnim();
+	void PlayJumpAnim();
 
-
-	float JumpDist;
-	float JumpSpeed;
+	float CurrentVerticalVelocity;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pawn| Properties")
+	float JumpVelocity;				// 점프 속도
 
 	bool bIsGround;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pawn| Properties")
 	bool bIsMoving;
 	bool bIsJumping;
 	FVector SaveLocation;

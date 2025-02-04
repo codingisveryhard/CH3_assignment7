@@ -45,6 +45,10 @@ AAssignPawn::AAssignPawn()
 	if (FallingAsset.Succeeded()) {
 		FallingAnim = FallingAsset.Object;
 	}
+	static ConstructorHelpers::FObjectFinder<UAnimationAsset> JumpAsset(TEXT("/Game/Resources/Characters/Animations/Manny/MM_Jump.MM_Jump"));
+	if (JumpAsset.Succeeded()) {
+		JumpAnim = JumpAsset.Object;
+	}
 
 	CapsuleRoot->InitCapsuleSize(22.0f, 90.0f);									// 캡슐 컴포넌트 크기 조정
 	SkeletalMeshComp->SetRelativeLocation(FVector(0.0f, 0.0f, 90.0f));			// 캡슐 컴포넌트의 위치에 맞게 변경
@@ -63,8 +67,8 @@ AAssignPawn::AAssignPawn()
 	Gravity = FVector(0.0f, 0.0f, -980.0f);
 	AirSpeed = 1.0f;
 
-	JumpDist = 500.0f;
-	JumpSpeed = 10.0f;
+	CurrentVerticalVelocity = 0.0f;
+	JumpVelocity = 1100.0f;
 
 	bIsGround = true;
 	bIsMoving = false;
@@ -108,21 +112,21 @@ void AAssignPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 				);
 			}
 
-			//if (PlayerController->JumpAction) {
-			//	EnhancedInput->BindAction(
-			//		PlayerController->JumpAction,
-			//		ETriggerEvent::Triggered,
-			//		this,
-			//		&AAssignPawn::StartJump
-			//	);
+			if (PlayerController->JumpAction) {
+				EnhancedInput->BindAction(
+					PlayerController->JumpAction,
+					ETriggerEvent::Triggered,
+					this,
+					&AAssignPawn::StartJump
+				);
 
-			//	EnhancedInput->BindAction(
-			//		PlayerController->JumpAction,
-			//		ETriggerEvent::Completed,
-			//		this,
-			//		&AAssignPawn::StopJump
-			//	);
-			//}
+				EnhancedInput->BindAction(
+					PlayerController->JumpAction,
+					ETriggerEvent::Completed,
+					this,
+					&AAssignPawn::StopJump
+				);
+			}
 
 			if (PlayerController->LookAction) {
 				EnhancedInput->BindAction(
@@ -149,16 +153,23 @@ void AAssignPawn::Move(const FInputActionValue& value) {
 		AddActorLocalOffset(FVector(0.0f, MoveInput.Y * MoveSpeed * AirSpeed, 0.0f));	// 공중에서의 속도배율 추가
 	}
 }
-//void AAssignPawn::StartJump(const FInputActionValue& value) {	// 폰 클래스에서 Jump함수를 사용할 수 없다. 사용하고자한다면 직접 만들어서 써야한다.
-//	if (value.Get<bool>()) {
-//		Jump();
-//	}
-//}
-//void AAssignPawn::StopJump(const FInputActionValue& value) {	// 폰 클래스에서 StopJump함수를 사용할 수 없다. 사용하고자한다면 직접 만들어서 써야한다.
-//	if (!value.get<bool>()) {
-//		stopjumping();
-//	}
-//}
+void AAssignPawn::StartJump(const FInputActionValue& value) {
+	if (value.Get<bool>()) {
+		if (bIsGround && !bIsJumping) // 땅에 있을 때만 점프 가능
+		{
+			bIsJumping = true;
+			CurrentVerticalVelocity = JumpVelocity; // 초기 점프 속도 설정
+		}
+	}
+}
+void AAssignPawn::StopJump(const FInputActionValue& value) {	// 폰 클래스에서 StopJump함수를 사용할 수 없다. 사용하고자한다면 직접 만들어서 써야한다.
+	if (!value.Get<bool>()) {
+		if (bIsJumping)
+		{
+			bIsJumping = false;
+		}
+	}
+}
 void AAssignPawn::Look(const FInputActionValue& value) {
 	FVector2D LookInput = value.Get<FVector2D>();
 
@@ -170,36 +181,52 @@ void AAssignPawn::Look(const FInputActionValue& value) {
 
 void AAssignPawn::Falling(float DeltaTime)
 {
-	FVector NewVelocity = Gravity * DeltaTime; // 중력 가속도 적용
-
 	// 바닥 체크 (레이캐스트 사용)
 	FVector Start = GetActorLocation();
-	FVector End = Start + FVector(0.0f, 0.0f, -90.0f); // 아래 방향으로 10cm 탐색
+	FVector End = Start + FVector(0.0f, 0.0f, -90.0f); // 아래 방향으로 90cm 탐색
 
-	FHitResult HitResult;					// 충돌 검사결과를 저장
-	FCollisionQueryParams CollisionParams;	// 충돌 검사 시 추가적인 조건 설정
-	CollisionParams.AddIgnoredActor(this);	// 자기 자신 무시
+	FHitResult HitResult;
+	FCollisionQueryParams CollisionParams;
+	CollisionParams.AddIgnoredActor(this);
 
-	bIsGround = GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECC_Visibility, CollisionParams);	// 폰을 기준으로 일정거리 아래에 물체가 있을 시 땅 판정
+	bIsGround = GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECC_Visibility, CollisionParams);
 
-	if (!bIsGround)
+	if (bIsJumping)
 	{
-		// 바닥에 닿지 않았다면 중력 적용
+		// 점프 중일 때는 중력을 적용하지 않고, 점프 속도를 감소시킴
+		CurrentVerticalVelocity += Gravity.Z * DeltaTime;
+		FVector NewLocation = GetActorLocation() + FVector(0.0f, 0.0f, CurrentVerticalVelocity * DeltaTime);
+		SetActorLocation(NewLocation, true); // 충돌 검사 활성화
+		if (CurrentAnim != JumpAnim) {
+			PlayJumpAnim();
+		}
+		// 점프가 끝났는지 확인
+		if (CurrentVerticalVelocity <= 0.0f)
+		{
+			bIsJumping = false;
+		}
+	}
+	else if (!bIsGround)
+	{
+		// 점프 중이 아니고 바닥에 닿지 않았다면 중력 적용
+		FVector NewVelocity = FVector(0.0f, 0.0f, Gravity.Z * DeltaTime);
 		AddActorWorldOffset(NewVelocity, true); // Sweep 활성화하여 충돌 감지
-		AirSpeed = 0.3;							// 공중에서의 속도 감소
-		if (CurrentAnim != FallingAnim) {		// 애니메이션이 전환될 때만 작동(멈춤 방지)
+		AirSpeed = 0.3f; // 공중에서의 속도 감소
+		if (CurrentAnim != FallingAnim) {
 			PlayFallingAnim();
 		}
 	}
-	else {
-		AirSpeed = 1.0f;						// 땅에서는 다시 정상 속도
+	else
+	{
+		// 바닥에 닿았을 때
+		AirSpeed = 1.0f; // 땅에서는 다시 정상 속도
 		if (!bIsMoving) {
-			if (CurrentAnim != IdleAnim) {			// 애니메이션이 전환될 때만 작동(멈춤 방지)
+			if (CurrentAnim != IdleAnim) {
 				PlayIdleAnim();
 			}
 		}
 		else {
-			if (CurrentAnim != RunAnim) {			// 애니메이션이 전환될 때만 작동(멈춤 방지)
+			if (CurrentAnim != RunAnim) {
 				PlayRunAnim();
 			}
 		}
@@ -229,3 +256,12 @@ void AAssignPawn::PlayRunAnim()
 	SkeletalMeshComp->Play(true);
 	CurrentAnim = RunAnim;
 }
+
+void AAssignPawn::PlayJumpAnim()
+{
+	SkeletalMeshComp->SetAnimationMode(EAnimationMode::AnimationSingleNode);
+	SkeletalMeshComp->SetAnimation(JumpAnim);
+	SkeletalMeshComp->Play(false);
+	CurrentAnim = JumpAnim;
+}
+

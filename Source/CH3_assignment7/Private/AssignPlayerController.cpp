@@ -4,7 +4,7 @@
 #include "AssignPlayerController.h"
 #include "EnhancedInputSubSystems.h"
 
-AAssignPlayerController::AAssignPlayerController() : InputMappingContext(nullptr), MoveAction(nullptr), LookAction(nullptr) {} // JumpAction(nullptr) 제거
+AAssignPlayerController::AAssignPlayerController() : InputMappingContext(nullptr), MoveAction(nullptr), LookAction(nullptr), JumpAction(nullptr) {}
 
 void AAssignPlayerController::BeginPlay() {
 	Super::BeginPlay();

@@ -24,8 +24,8 @@ public:
 	UInputAction* MoveAction;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input");
 	UInputAction* LookAction;
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input");
-	//UInputAction* JumpAction;										// 폰에서는 점프 함수를 쓸 수 없다. 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input");
+	UInputAction* JumpAction;
 
 	virtual void BeginPlay() override;
 

@@ -14,7 +14,7 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 #endif
 #define CH3_ASSIGNMENT7_DronePawn_generated_h
 
-#define FID_VS_CH3_assignment7_Source_CH3_assignment7_Public_DronePawn_h_16_INCLASS_NO_PURE_DECLS \
+#define FID_VS_CH3_assignment7_Source_CH3_assignment7_Public_DronePawn_h_14_INCLASS_NO_PURE_DECLS \
 private: \
 	static void StaticRegisterNativesADronePawn(); \
 	friend struct Z_Construct_UClass_ADronePawn_Statics; \
@@ -23,7 +23,7 @@ public: \
 	DECLARE_SERIALIZER(ADronePawn)
 
 
-#define FID_VS_CH3_assignment7_Source_CH3_assignment7_Public_DronePawn_h_16_ENHANCED_CONSTRUCTORS \
+#define FID_VS_CH3_assignment7_Source_CH3_assignment7_Public_DronePawn_h_14_ENHANCED_CONSTRUCTORS \
 private: \
 	/** Private move- and copy-constructors, should never be used */ \
 	ADronePawn(ADronePawn&&); \
@@ -35,12 +35,12 @@ public: \
 	NO_API virtual ~ADronePawn();
 
 
-#define FID_VS_CH3_assignment7_Source_CH3_assignment7_Public_DronePawn_h_13_PROLOG
-#define FID_VS_CH3_assignment7_Source_CH3_assignment7_Public_DronePawn_h_16_GENERATED_BODY \
+#define FID_VS_CH3_assignment7_Source_CH3_assignment7_Public_DronePawn_h_11_PROLOG
+#define FID_VS_CH3_assignment7_Source_CH3_assignment7_Public_DronePawn_h_14_GENERATED_BODY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	FID_VS_CH3_assignment7_Source_CH3_assignment7_Public_DronePawn_h_16_INCLASS_NO_PURE_DECLS \
-	FID_VS_CH3_assignment7_Source_CH3_assignment7_Public_DronePawn_h_16_ENHANCED_CONSTRUCTORS \
+	FID_VS_CH3_assignment7_Source_CH3_assignment7_Public_DronePawn_h_14_INCLASS_NO_PURE_DECLS \
+	FID_VS_CH3_assignment7_Source_CH3_assignment7_Public_DronePawn_h_14_ENHANCED_CONSTRUCTORS \
 private: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 

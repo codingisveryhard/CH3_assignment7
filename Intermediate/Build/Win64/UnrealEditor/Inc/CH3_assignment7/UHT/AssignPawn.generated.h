@@ -15,14 +15,14 @@ struct FInputActionValue;
 #endif
 #define CH3_ASSIGNMENT7_AssignPawn_generated_h
 
-#define FID_VS_CH3_assignment7_Source_CH3_assignment7_Public_AssignPawn_h_17_RPC_WRAPPERS_NO_PURE_DECLS \
+#define FID_VS_CH3_assignment7_Source_CH3_assignment7_Public_AssignPawn_h_15_RPC_WRAPPERS_NO_PURE_DECLS \
 	DECLARE_FUNCTION(execLook); \
 	DECLARE_FUNCTION(execStopJump); \
 	DECLARE_FUNCTION(execStartJump); \
 	DECLARE_FUNCTION(execMove);
 
 
-#define FID_VS_CH3_assignment7_Source_CH3_assignment7_Public_AssignPawn_h_17_INCLASS_NO_PURE_DECLS \
+#define FID_VS_CH3_assignment7_Source_CH3_assignment7_Public_AssignPawn_h_15_INCLASS_NO_PURE_DECLS \
 private: \
 	static void StaticRegisterNativesAAssignPawn(); \
 	friend struct Z_Construct_UClass_AAssignPawn_Statics; \
@@ -31,7 +31,7 @@ public: \
 	DECLARE_SERIALIZER(AAssignPawn)
 
 
-#define FID_VS_CH3_assignment7_Source_CH3_assignment7_Public_AssignPawn_h_17_ENHANCED_CONSTRUCTORS \
+#define FID_VS_CH3_assignment7_Source_CH3_assignment7_Public_AssignPawn_h_15_ENHANCED_CONSTRUCTORS \
 private: \
 	/** Private move- and copy-constructors, should never be used */ \
 	AAssignPawn(AAssignPawn&&); \
@@ -43,13 +43,13 @@ public: \
 	NO_API virtual ~AAssignPawn();
 
 
-#define FID_VS_CH3_assignment7_Source_CH3_assignment7_Public_AssignPawn_h_14_PROLOG
-#define FID_VS_CH3_assignment7_Source_CH3_assignment7_Public_AssignPawn_h_17_GENERATED_BODY \
+#define FID_VS_CH3_assignment7_Source_CH3_assignment7_Public_AssignPawn_h_12_PROLOG
+#define FID_VS_CH3_assignment7_Source_CH3_assignment7_Public_AssignPawn_h_15_GENERATED_BODY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	FID_VS_CH3_assignment7_Source_CH3_assignment7_Public_AssignPawn_h_17_RPC_WRAPPERS_NO_PURE_DECLS \
-	FID_VS_CH3_assignment7_Source_CH3_assignment7_Public_AssignPawn_h_17_INCLASS_NO_PURE_DECLS \
-	FID_VS_CH3_assignment7_Source_CH3_assignment7_Public_AssignPawn_h_17_ENHANCED_CONSTRUCTORS \
+	FID_VS_CH3_assignment7_Source_CH3_assignment7_Public_AssignPawn_h_15_RPC_WRAPPERS_NO_PURE_DECLS \
+	FID_VS_CH3_assignment7_Source_CH3_assignment7_Public_AssignPawn_h_15_INCLASS_NO_PURE_DECLS \
+	FID_VS_CH3_assignment7_Source_CH3_assignment7_Public_AssignPawn_h_15_ENHANCED_CONSTRUCTORS \
 private: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 

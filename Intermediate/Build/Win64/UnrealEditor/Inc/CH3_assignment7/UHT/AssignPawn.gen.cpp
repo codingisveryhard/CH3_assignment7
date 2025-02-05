@@ -254,7 +254,13 @@ struct Z_Construct_UClass_AAssignPawn_Statics
 	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_IdleAnim_MetaData[] = {
 		{ "Category", "Pawn| Animation" },
+#if !UE_BUILD_SHIPPING
+		{ "Comment", "// \xec\x95\xa0\xeb\x8b\x88\xeb\xa9\x94\xec\x9d\xb4\xec\x85\x98 \xec\xa0\x81\xec\x9a\xa9\xec\x9d\x84 \xec\x9c\x84\xed\x95\xb4 \xec\x84\xa0\xec\x96\xb8\n" },
+#endif
 		{ "ModuleRelativePath", "Public/AssignPawn.h" },
+#if !UE_BUILD_SHIPPING
+		{ "ToolTip", "\xec\x95\xa0\xeb\x8b\x88\xeb\xa9\x94\xec\x9d\xb4\xec\x85\x98 \xec\xa0\x81\xec\x9a\xa9\xec\x9d\x84 \xec\x9c\x84\xed\x95\xb4 \xec\x84\xa0\xec\x96\xb8" },
+#endif
 	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_RunAnim_MetaData[] = {
 		{ "Category", "Pawn| Animation" },
@@ -268,9 +274,19 @@ struct Z_Construct_UClass_AAssignPawn_Statics
 		{ "Category", "Pawn| Animation" },
 		{ "ModuleRelativePath", "Public/AssignPawn.h" },
 	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_LandAnim_MetaData[] = {
+		{ "Category", "Pawn| Animation" },
+		{ "ModuleRelativePath", "Public/AssignPawn.h" },
+	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_JumpVelocity_MetaData[] = {
 		{ "Category", "Pawn| Properties" },
+#if !UE_BUILD_SHIPPING
+		{ "Comment", "// \xec\xa0\x90\xed\x94\x84 \xec\x8b\x9c \xeb\xb3\x80\xed\x95\x98\xeb\x8a\x94 \xec\x86\x8d\xeb\x8f\x84\n" },
+#endif
 		{ "ModuleRelativePath", "Public/AssignPawn.h" },
+#if !UE_BUILD_SHIPPING
+		{ "ToolTip", "\xec\xa0\x90\xed\x94\x84 \xec\x8b\x9c \xeb\xb3\x80\xed\x95\x98\xeb\x8a\x94 \xec\x86\x8d\xeb\x8f\x84" },
+#endif
 	};
 #endif // WITH_METADATA
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_CapsuleRoot;
@@ -282,6 +298,7 @@ struct Z_Construct_UClass_AAssignPawn_Statics
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_RunAnim;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_FallingAnim;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_JumpAnim;
+	static const UECodeGen_Private::FObjectPropertyParams NewProp_LandAnim;
 	static const UECodeGen_Private::FFloatPropertyParams NewProp_JumpVelocity;
 	static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
 	static UObject* (*const DependentSingletons[])();
@@ -306,6 +323,7 @@ const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_AAssignPawn_St
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_AAssignPawn_Statics::NewProp_RunAnim = { "RunAnim", nullptr, (EPropertyFlags)0x0020080000000001, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(AAssignPawn, RunAnim), Z_Construct_UClass_UAnimationAsset_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_RunAnim_MetaData), NewProp_RunAnim_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_AAssignPawn_Statics::NewProp_FallingAnim = { "FallingAnim", nullptr, (EPropertyFlags)0x0020080000000001, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(AAssignPawn, FallingAnim), Z_Construct_UClass_UAnimationAsset_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_FallingAnim_MetaData), NewProp_FallingAnim_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_AAssignPawn_Statics::NewProp_JumpAnim = { "JumpAnim", nullptr, (EPropertyFlags)0x0020080000000001, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(AAssignPawn, JumpAnim), Z_Construct_UClass_UAnimationAsset_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_JumpAnim_MetaData), NewProp_JumpAnim_MetaData) };
+const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_AAssignPawn_Statics::NewProp_LandAnim = { "LandAnim", nullptr, (EPropertyFlags)0x0020080000000001, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(AAssignPawn, LandAnim), Z_Construct_UClass_UAnimationAsset_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_LandAnim_MetaData), NewProp_LandAnim_MetaData) };
 const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_AAssignPawn_Statics::NewProp_JumpVelocity = { "JumpVelocity", nullptr, (EPropertyFlags)0x0020080000000005, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(AAssignPawn, JumpVelocity), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_JumpVelocity_MetaData), NewProp_JumpVelocity_MetaData) };
 const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_AAssignPawn_Statics::PropPointers[] = {
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AAssignPawn_Statics::NewProp_CapsuleRoot,
@@ -317,6 +335,7 @@ const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_AAssignPa
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AAssignPawn_Statics::NewProp_RunAnim,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AAssignPawn_Statics::NewProp_FallingAnim,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AAssignPawn_Statics::NewProp_JumpAnim,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AAssignPawn_Statics::NewProp_LandAnim,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AAssignPawn_Statics::NewProp_JumpVelocity,
 };
 static_assert(UE_ARRAY_COUNT(Z_Construct_UClass_AAssignPawn_Statics::PropPointers) < 2048);
@@ -360,10 +379,10 @@ AAssignPawn::~AAssignPawn() {}
 struct Z_CompiledInDeferFile_FID_VS_CH3_assignment7_Source_CH3_assignment7_Public_AssignPawn_h_Statics
 {
 	static constexpr FClassRegisterCompiledInInfo ClassInfo[] = {
-		{ Z_Construct_UClass_AAssignPawn, AAssignPawn::StaticClass, TEXT("AAssignPawn"), &Z_Registration_Info_UClass_AAssignPawn, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(AAssignPawn), 2454494596U) },
+		{ Z_Construct_UClass_AAssignPawn, AAssignPawn::StaticClass, TEXT("AAssignPawn"), &Z_Registration_Info_UClass_AAssignPawn, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(AAssignPawn), 42214990U) },
 	};
 };
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_VS_CH3_assignment7_Source_CH3_assignment7_Public_AssignPawn_h_547709174(TEXT("/Script/CH3_assignment7"),
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_VS_CH3_assignment7_Source_CH3_assignment7_Public_AssignPawn_h_3400308029(TEXT("/Script/CH3_assignment7"),
 	Z_CompiledInDeferFile_FID_VS_CH3_assignment7_Source_CH3_assignment7_Public_AssignPawn_h_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_VS_CH3_assignment7_Source_CH3_assignment7_Public_AssignPawn_h_Statics::ClassInfo),
 	nullptr, 0,
 	nullptr, 0);

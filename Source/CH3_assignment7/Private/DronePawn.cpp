@@ -28,7 +28,8 @@ ADronePawn::ADronePawn()
 
 
 	SpringArmComp->TargetArmLength = 300.0f;
-	SpringArmComp->bUsePawnControlRotation = true;
+	SpringArmComp->bUsePawnControlRotation = false;
+	CameraComp->bUsePawnControlRotation = false;
 
 	StaticMeshComp->SetSimulatePhysics(false);											// 스켈레탈 메시 물리 시뮬레이션 비활성화
 	StaticMeshComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);				// 스켈레탈 메시 충돌 비활성화
@@ -145,4 +146,3 @@ void ADronePawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 		}
 	}
 }
-

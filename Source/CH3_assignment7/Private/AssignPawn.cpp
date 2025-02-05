@@ -7,10 +7,8 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 
-// Sets default values
 AAssignPawn::AAssignPawn()
 {
- 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;	// 중력 작용을 위해 true
 
 	CapsuleRoot = CreateDefaultSubobject<UCapsuleComponent>(TEXT("CapsuleRoot"));
@@ -49,13 +47,17 @@ AAssignPawn::AAssignPawn()
 	if (JumpAsset.Succeeded()) {
 		JumpAnim = JumpAsset.Object;
 	}
+	static ConstructorHelpers::FObjectFinder<UAnimationAsset> LandAsset(TEXT("/Game/Resources/Characters/Animations/Manny/MM_Land.MM_Land"));
+	if (LandAsset.Succeeded()) {
+		LandAnim = LandAsset.Object;
+	}
 
 	CapsuleRoot->InitCapsuleSize(22.0f, 90.0f);									// 캡슐 컴포넌트 크기 조정
 	SkeletalMeshComp->SetRelativeLocation(FVector(0.0f, 0.0f, 90.0f));			// 캡슐 컴포넌트의 위치에 맞게 변경
 	SkeletalMeshComp->SetRelativeRotation(FRotator(0.0f, -90.0f, 0.0f));		// 정면을 바라보도록 변경
 	SpringArmComp->TargetArmLength = 300.0f;
 	SpringArmComp->bUsePawnControlRotation = true;
-	CameraComp->bUsePawnControlRotation = false;
+	CameraComp->bUsePawnControlRotation = true;
 
 	CapsuleRoot->SetSimulatePhysics(false);													// 캡슐 컴포넌트 물리 시뮬레이션 비활성화
 	SkeletalMeshComp->SetSimulatePhysics(false);											// 스켈레탈 메시 물리 시뮬레이션 비활성화
@@ -76,27 +78,28 @@ AAssignPawn::AAssignPawn()
 	SaveLocation = GetActorLocation();
 }
 
-// Called when the game starts or when spawned
 void AAssignPawn::BeginPlay()
 {
 	Super::BeginPlay();
 	
 }
 
-// Called every frame
 void AAssignPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	Falling(DeltaTime);
-	FVector Velocity = GetActorLocation() - SaveLocation;
-	float Speed = Velocity.Size2D();
-	if (Speed > 0) bIsMoving = true;
-	else bIsMoving = false;
-	SaveLocation = GetActorLocation();
+	IsGround();
+	if (bIsJumping) {		// 점프 중인 경우 작동
+		Jumping(DeltaTime);
+	}
+	else if (!bIsGround) {	// 점프 중도 아니고 지면에 있지 않은 경우 낙하
+		Falling(DeltaTime);
+	}
+	else {					// 지면에 있을 시 작동
+		GroundMove();
+	}
+	IsMoving();
 }
 
-// Called to bind functionality to input
 void AAssignPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
@@ -175,60 +178,67 @@ void AAssignPawn::Look(const FInputActionValue& value) {
 
 	AddControllerYawInput(LookInput.X);
 	AddControllerPitchInput(LookInput.Y);
-	float RotationSpeed = 5.0f;				// 그냥 사용할 시 마우스 속도에 비해 폰의 회전 속도가 느려서 추가
+	float RotationSpeed = 4.0f;				// 그냥 사용할 시 마우스 속도에 비해 폰의 회전 속도가 느려서 추가
 	AddActorLocalRotation(FRotator(0.0f, LookInput.X * RotationSpeed, 0.0f));
+}
+
+void AAssignPawn::IsMoving()
+{
+	FVector Velocity = GetActorLocation() - SaveLocation;	// 현재 위치에서 이전 위치를 뺴서 움직임 확인
+	float Speed = Velocity.Size2D();						// 거리로 전환해서 저장
+	if (Speed > 0) bIsMoving = true;						// 움직임 판별
+	else bIsMoving = false;
+	SaveLocation = GetActorLocation();
+}
+
+void AAssignPawn::IsGround() // 바닥 체크 (레이캐스트 사용)
+{	
+	FVector Start = GetActorLocation();					// 현재 폰의 위치
+	FVector End = Start + FVector(0.0f, 0.0f, -90.0f);  // 아래 방향으로 90cm 탐색(폰의 높이)
+
+	FHitResult HitResult;
+	FCollisionQueryParams CollisionParams;
+	CollisionParams.AddIgnoredActor(this);				// 충돌 탐색에서 폰은 제외
+	// 현재 폰의 위치 폰의 발 아래까지 물체가 있을 경우 땅 위에 있는 것으로 판정
+	bIsGround = GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECC_Visibility, CollisionParams);
+}
+
+void AAssignPawn::Jumping(float DeltaTime)
+{
+	AirSpeed = 0.2f;	// 공중에서의 속도 감소
+	CurrentVerticalVelocity += Gravity.Z * DeltaTime;	// 중력 속도만큼 초당 감소
+	FVector NewLocation = GetActorLocation() + FVector(0.0f, 0.0f, CurrentVerticalVelocity * DeltaTime);
+	SetActorLocation(NewLocation);
+	if (CurrentAnim != JumpAnim) {
+		PlayJumpAnim();
+	}
+	if (FMath::IsNearlyZero(CurrentVerticalVelocity))	// 올라가는 속도가 0이 될 시 점프 종료->낙하
+	{
+		bIsJumping = false;
+	}
 }
 
 void AAssignPawn::Falling(float DeltaTime)
 {
-	// 바닥 체크 (레이캐스트 사용)
-	FVector Start = GetActorLocation();
-	FVector End = Start + FVector(0.0f, 0.0f, -90.0f); // 아래 방향으로 90cm 탐색
+	AirSpeed = 0.2f;	// 공중에서의 속도 감소
+	FVector NewVelocity = FVector(0.0f, 0.0f, Gravity.Z * DeltaTime);	// 중력 속도만큼 초당 감소
+	AddActorWorldOffset(NewVelocity);
+	if (CurrentAnim != FallingAnim) {
+		PlayFallingAnim();
+	}
+}
 
-	FHitResult HitResult;
-	FCollisionQueryParams CollisionParams;
-	CollisionParams.AddIgnoredActor(this);
-
-	bIsGround = GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECC_Visibility, CollisionParams);
-
-	if (bIsJumping)
-	{
-		// 점프 중일 때는 중력을 적용하지 않고, 점프 속도를 감소시킴
-		CurrentVerticalVelocity += Gravity.Z * DeltaTime;
-		FVector NewLocation = GetActorLocation() + FVector(0.0f, 0.0f, CurrentVerticalVelocity * DeltaTime);
-		SetActorLocation(NewLocation, true); // 충돌 검사 활성화
-		if (CurrentAnim != JumpAnim) {
-			PlayJumpAnim();
-		}
-		// 점프가 끝났는지 확인
-		if (CurrentVerticalVelocity <= 0.0f)
-		{
-			bIsJumping = false;
+void AAssignPawn::GroundMove()
+{
+	AirSpeed = 1.0f;	// 땅에서는 다시 정상 속도
+	if (!bIsMoving) {	// 움직임이 없을 경우
+		if (CurrentAnim != IdleAnim) {
+			PlayIdleAnim();
 		}
 	}
-	else if (!bIsGround)
-	{
-		// 점프 중이 아니고 바닥에 닿지 않았다면 중력 적용
-		FVector NewVelocity = FVector(0.0f, 0.0f, Gravity.Z * DeltaTime);
-		AddActorWorldOffset(NewVelocity, true); // Sweep 활성화하여 충돌 감지
-		AirSpeed = 0.3f; // 공중에서의 속도 감소
-		if (CurrentAnim != FallingAnim) {
-			PlayFallingAnim();
-		}
-	}
-	else
-	{
-		// 바닥에 닿았을 때
-		AirSpeed = 1.0f; // 땅에서는 다시 정상 속도
-		if (!bIsMoving) {
-			if (CurrentAnim != IdleAnim) {
-				PlayIdleAnim();
-			}
-		}
-		else {
-			if (CurrentAnim != RunAnim) {
-				PlayRunAnim();
-			}
+	else {				// 움직이고 있을 경우
+		if (CurrentAnim != RunAnim) {
+			PlayRunAnim();
 		}
 	}
 }
@@ -261,7 +271,15 @@ void AAssignPawn::PlayJumpAnim()
 {
 	SkeletalMeshComp->SetAnimationMode(EAnimationMode::AnimationSingleNode);
 	SkeletalMeshComp->SetAnimation(JumpAnim);
-	SkeletalMeshComp->Play(false);
+	SkeletalMeshComp->Play(false);				// 점프 동작은 반복하지 않고 한번만
 	CurrentAnim = JumpAnim;
+}
+
+void AAssignPawn::PlayLandAnim()
+{
+	SkeletalMeshComp->SetAnimationMode(EAnimationMode::AnimationSingleNode);
+	SkeletalMeshComp->SetAnimation(LandAnim);
+	SkeletalMeshComp->Play(false);				// 착륙 동작은 반복하지 않고 한번만
+	CurrentAnim = LandAnim;
 }
 
